@@ -32,7 +32,7 @@ public class AppDbContext : DbContext
 
         modelBuilder.Entity<Sheet>()
             .Property(s => s.SheetStatus)
-            .HasConversion<int>(); 
+            .HasConversion<string>(); 
 
         modelBuilder.Entity<Sheet>()
             .HasOne(s => s.CreatedBy)
@@ -53,7 +53,7 @@ public class AppDbContext : DbContext
 
         modelBuilder.Entity<DefectCatalog>()
             .Property(d => d.Category)
-            .HasConversion<int>();
+            .HasConversion<string>();
 
    
         modelBuilder.Entity<SheetDefectItem>()
