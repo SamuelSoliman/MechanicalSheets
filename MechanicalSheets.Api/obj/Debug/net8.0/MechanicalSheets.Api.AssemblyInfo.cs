@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MechanicalSheets.Api")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8261a79c6ab990db6555d5ef9c923214b804bdc9")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+130762c84d2608702af558c12f2a5113df6cd74a")]
 [assembly: System.Reflection.AssemblyProductAttribute("MechanicalSheets.Api")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MechanicalSheets.Api")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
