@@ -1,0 +1,6 @@
+@MechanicalSheets.Api_HostAddress = http://localhost:5063
+
+GET {{MechanicalSheets.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
