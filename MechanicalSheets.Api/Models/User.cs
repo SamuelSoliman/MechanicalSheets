@@ -11,8 +11,8 @@ public class User
     public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 
     
-    public ICollection<InterventionSheet> CreatedSheets { get; set; } = new List<InterventionSheet>();
-    public ICollection<InterventionSheet> ReviewedSheets { get; set; } = new List<InterventionSheet>();
+    public ICollection<Sheet> CreatedSheets { get; set; } = new List<Sheet>();
+    public ICollection<Sheet> ReviewedSheets { get; set; } = new List<Sheet>();
     public ICollection<SheetTechnician> SheetTechnicians { get; set; } = new List<SheetTechnician>();
     public ICollection<Attachment> Attachments { get; set; } = new List<Attachment>();
 }
