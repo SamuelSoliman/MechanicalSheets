@@ -1,6 +1,6 @@
 namespace MechanicalSheets.Api.Models;
 
-public class InterventionSheet
+public class Sheet
 {
     public int Id { get; set; }
     public string Code { get; set; } = string.Empty;

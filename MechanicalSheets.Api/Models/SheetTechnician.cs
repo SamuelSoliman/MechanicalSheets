@@ -7,6 +7,6 @@ public class SheetTechnician
     public int UserId { get; set; }
 
     
-    public InterventionSheet Sheet { get; set; } = null!;
+    public Sheet Sheet { get; set; } = null!;
     public User User { get; set; } = null!;
 }
