@@ -1,3 +1,5 @@
+using MechanicalSheets.Api.Enums;
+
 namespace MechanicalSheets.Api.Models;
 
 public class Sheet
@@ -7,7 +9,7 @@ public class Sheet
     public string? Brand { get; set; }
     public string? Vehicle { get; set; }
     public DateOnly InspectionDate { get; set; }
-    public string Status { get; set; } = "draft"; // draft|submitted|approved|rejected
+    public SheetStatusEnum SheetStatus { get; set; } = SheetStatusEnum.Draft;
     public string? RejectionNote { get; set; }
     public DateTime? SubmittedAt { get; set; }
     public DateTime? ReviewedAt { get; set; }
