@@ -1,5 +1,6 @@
 using System.Text;
 using MechanicalSheets.Api.Data;
+using MechanicalSheets.Api.Middleware;
 using MechanicalSheets.Api.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -75,7 +76,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 app.UseAuthentication();
 app.UseAuthorization();
 
