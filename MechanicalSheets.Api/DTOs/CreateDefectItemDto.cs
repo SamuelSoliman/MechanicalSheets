@@ -9,14 +9,7 @@ public class CreateDefectItemDto
     public int DefectCatalogId { get; set; }
 
     [Required]
-    public string Description { get; set; } = string.Empty;
-
-    [Required]
     public bool IsSeen { get; set; }
-
-    [Required]
-    public byte Gravity { get; set; }
-
 
     public bool? ExtentLow { get; set; }
     public bool? ExtentMedium { get; set; }

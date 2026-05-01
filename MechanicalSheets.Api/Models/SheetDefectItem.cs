@@ -5,9 +5,7 @@ public class SheetDefectItem
     public int Id { get; set; }
     public int SheetId { get; set; }
     public int DefectCatalogId { get; set; }  
-     public string Description { get; set; } = string.Empty;
     public bool IsSeen { get; set; }
-    public byte Gravity { get; set; }
 
   
     public bool? ExtentLow { get; set; }

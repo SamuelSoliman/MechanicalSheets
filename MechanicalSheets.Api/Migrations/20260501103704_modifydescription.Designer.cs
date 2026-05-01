@@ -4,6 +4,7 @@ using MechanicalSheets.Api.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MechanicalSheets.Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260501103704_modifydescription")]
+    partial class modifydescription
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -82,9 +85,6 @@ namespace MechanicalSheets.Api.Migrations
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("longtext");
-
-                    b.Property<byte>("Gravity")
-                        .HasColumnType("tinyint unsigned");
 
                     b.HasKey("Id");
 
@@ -174,6 +174,9 @@ namespace MechanicalSheets.Api.Migrations
 
                     b.Property<bool?>("ExtentMedium")
                         .HasColumnType("tinyint(1)");
+
+                    b.Property<byte>("Gravity")
+                        .HasColumnType("tinyint unsigned");
 
                     b.Property<bool>("HasPhoto")
                         .HasColumnType("tinyint(1)");
