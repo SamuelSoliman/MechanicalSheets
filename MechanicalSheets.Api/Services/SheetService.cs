@@ -234,7 +234,7 @@ public class SheetService : ISheetService
         _db.SheetDefectItems.Add(item);
         await _db.SaveChangesAsync();
 
-        // Ricarica con il catalogo per la risposta
+     
         await _db.Entry(item).Reference(i => i.DefectCatalog).LoadAsync();
 
         return MapDefectItemToDto(item);
