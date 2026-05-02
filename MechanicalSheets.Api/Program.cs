@@ -78,7 +78,10 @@ builder.Services.AddSwaggerGen(c =>
         }
     });
 });
-
+builder.Services.Configure<Microsoft.AspNetCore.Http.Features.FormOptions>(options =>
+{
+    options.MultipartBodyLengthLimit = 5 * 1024 * 1024; 
+});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -100,5 +103,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+
 
 app.Run();
