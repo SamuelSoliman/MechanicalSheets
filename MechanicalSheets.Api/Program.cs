@@ -82,6 +82,7 @@ using (var scope = app.Services.CreateScope())
     await DbSeeder.SeedAsync(db);
 }
 app.UseMiddleware<ExceptionHandlingMiddleware>();
+app.UseMiddleware<ApiKeyMiddleware>();
 app.UseAuthentication();
 app.UseAuthorization();
 

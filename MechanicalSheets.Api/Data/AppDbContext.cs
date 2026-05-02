@@ -15,6 +15,7 @@ public class AppDbContext : DbContext
     public DbSet<DefectCatalog> DefectCatalogs => Set<DefectCatalog>();
     public DbSet<SheetTechnician> SheetTechnicians => Set<SheetTechnician>();
     public DbSet<Attachment> Attachments => Set<Attachment>();
+    public DbSet<ApiKey> ApiKeys => Set<ApiKey>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -96,5 +97,7 @@ public class AppDbContext : DbContext
             .WithMany(u => u.SheetTechnicians)
             .HasForeignKey(st => st.UserId)
             .OnDelete(DeleteBehavior.Restrict);
+
+           
     }
 }

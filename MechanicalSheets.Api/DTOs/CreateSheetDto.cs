@@ -12,5 +12,6 @@ public class CreateSheetDto
     [Required]
     public DateOnly InspectionDate { get; set; }
 
+    [Required]
     public List<int> TechnicianIds { get; set; } = new();
 }

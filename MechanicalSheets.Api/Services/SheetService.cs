@@ -18,6 +18,7 @@ public interface ISheetService
     Task<SheetResponseDto> RejectAsync(int id, int managerId, string rejectionNote);
     Task<DefectItemResponseDto> AddDefectItemAsync(int sheetId, CreateDefectItemDto dto, int requesterId);
     Task DeleteDefectItemAsync(int sheetId, int itemId, int requesterId);
+    SheetResponseDto MapToDto(Sheet s);
 }
 
 public class SheetService : ISheetService
@@ -270,7 +271,7 @@ public class SheetService : ISheetService
             .FirstOrDefaultAsync(s => s.Id == id);
     }
 
-    private static SheetResponseDto MapToDto(Sheet s) => new()
+    public SheetResponseDto MapToDto(Sheet s) => new()
     {
         Id = s.Id,
         Code = s.Code,
