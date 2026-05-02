@@ -5,8 +5,21 @@ using MechanicalSheets.Api.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
+
+Log.Logger = new LoggerConfiguration()
+    .MinimumLevel.Error()
+    .WriteTo.Console()
+    .WriteTo.File(
+        "logs/errors-.log",
+        rollingInterval: RollingInterval.Day,
+        outputTemplate: "{Exception}{NewLine}"
+    )
+    .CreateLogger();
+
+builder.Host.UseSerilog();
 
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("Default");

@@ -18,40 +18,24 @@ public class IntegrationController : ControllerBase
         _sheetService = sheetService;
     }
 
-    
+
     [HttpGet("sheets")]
     public async Task<IActionResult> GetSheets([FromQuery] string? status = null)
     {
-        var query = _db.Sheets
-            .Include(s => s.CreatedBy)
-            .Include(s => s.DefectItems).ThenInclude(i => i.DefectCatalog)
-            .AsQueryable();
+        var sheets = await _db.Sheets
+           .Include(s => s.CreatedBy)
+           .Include(s => s.DefectItems)
+           .ToListAsync();
 
-        if (!string.IsNullOrEmpty(status))
-            query = query.Where(s => s.SheetStatus.ToString() == status);
+        var sheetDtos = sheets
+            .Select(s => _sheetService.MapToDto(s))
+            .ToList();
 
-        var sheets = await query
-            .Select(s => new
-            {
-                s.Id,
-                s.Code,
-                s.Brand,
-                s.Vehicle,
-                s.SheetStatus,
-                s.InspectionDate,
-                s.SubmittedAt,
-                s.ReviewedAt,
-                CreatedBy = s.CreatedBy.Name,
-                DefectCount = s.DefectItems.Count
-            })
-            .ToListAsync();
 
-        
-
-        return Ok(sheets);
+        return Ok(sheetDtos);
     }
 
-    
+
     [HttpGet("sheets/{id}")]
     public async Task<IActionResult> GetSheet(int id)
     {
@@ -62,7 +46,7 @@ public class IntegrationController : ControllerBase
             .FirstOrDefaultAsync(s => s.Id == id);
 
         if (sheet == null) return NotFound(new { message = "Scheda non trovata" });
-       var sheetDto = _sheetService.MapToDto(sheet);
+        var sheetDto = _sheetService.MapToDto(sheet);
         return Ok(sheetDto);
     }
 
