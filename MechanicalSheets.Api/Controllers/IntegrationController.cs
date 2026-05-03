@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using MechanicalSheets.Api.Data;
 using MechanicalSheets.Api.Services;
 using MechanicalSheets.Api.Enums;
+using MechanicalSheets.Api.DTOs;
 
 namespace MechanicalSheets.Api.Controllers;
 
@@ -65,6 +66,48 @@ public class IntegrationController : ControllerBase
         if (sheet == null) return NotFound(new { message = "Scheda non trovata" });
        var sheetDto = _sheetService.MapToDto(sheet);
         return Ok(sheetDto);
+    }
+
+    [HttpPut("sheets/{id}/status")]
+    public async Task<IActionResult> ChangeSheetStatus(int id, [FromBody] ChangeSheetStatusDto dto)
+    {
+        var sheet = await _db.Sheets.FindAsync(id);
+        if (sheet == null)
+            return NotFound(new { message = "Scheda non trovata" });
+
+        // Validate status transitions
+        if (sheet.SheetStatus == SheetStatusEnum.Approved)
+            return BadRequest(new { message = "Non puoi cambiare lo stato di una scheda già approvata" });
+
+        if (sheet.SheetStatus == SheetStatusEnum.Rejected && dto.NewStatus != SheetStatusEnum.Draft)
+            return BadRequest(new { message = "Una scheda rifiutata può solo tornare in bozza" });
+
+        if (dto.NewStatus == SheetStatusEnum.Rejected && string.IsNullOrWhiteSpace(dto.RejectionNote))
+            return BadRequest(new { message = "Nota di rifiuto obbligatoria quando si rifiuta una scheda" });
+
+        
+        sheet.SheetStatus = dto.NewStatus;
+        sheet.UpdatedAt = DateTime.UtcNow;
+
+        if (dto.NewStatus == SheetStatusEnum.Submitted)
+        {
+            sheet.SubmittedAt = DateTime.UtcNow;
+        }
+        else if (dto.NewStatus == SheetStatusEnum.Approved)
+        {
+            sheet.ReviewedAt = DateTime.UtcNow;
+        
+        }
+        else if (dto.NewStatus == SheetStatusEnum.Rejected)
+        {
+            sheet.RejectionNote = dto.RejectionNote;
+            sheet.ReviewedAt = DateTime.UtcNow;
+          
+        }
+
+        await _db.SaveChangesAsync();
+
+        return Ok(new { message = "Stato scheda aggiornato con successo" });
     }
 
 }
