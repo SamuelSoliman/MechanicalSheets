@@ -95,8 +95,29 @@ app.UseHttpsRedirection();
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    await DbSeeder.SeedAsync(db);
+    
+    var retries = 5;
+    while (retries > 0)
+    {
+        try
+        {
+     
+            db.Database.Migrate();
+            
+      
+            await DbSeeder.SeedAsync(db);
+            
+            break;
+        }
+        catch (Exception ex)
+        {
+            retries--;
+            Console.WriteLine($"[STARTUP] DB non pronto, riprovo ({retries} tentativi rimasti): {ex.Message}");
+            Thread.Sleep(3000);
+        }
+    }
 }
+
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 app.UseMiddleware<ApiKeyMiddleware>();
 app.UseAuthentication();

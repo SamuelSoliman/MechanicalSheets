@@ -1,6 +1,7 @@
 version: '3.8'
 
 services:
+
   db:
     image: mysql:8.0
     container_name: mechanical_sheets_db
@@ -19,5 +20,28 @@ services:
       timeout: 5s
       retries: 10
 
+  api:
+    build:
+      context: ./MechanicalSheets.Api
+      dockerfile: Dockerfile
+    container_name: mechanical_sheets_api
+    restart: always
+    ports:
+      - "5000:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ConnectionStrings__Default=Server=db;Port=3306;Database=mechanical_sheets;User=app_user;Password=app_pass;
+      - Jwt__Key=mechanical_sheets_super_secret_key_32chars!!
+      - Jwt__Issuer=MechanicalSheetsApi
+      - Jwt__ExpiresInHours=8
+      - Storage__UploadPath=/app/uploads
+    volumes:
+      - uploads_data:/app/uploads
+      - ./logs:/app/logs
+    depends_on:
+      db:
+        condition: service_healthy
+
 volumes:
   db_data:
+  uploads_data:

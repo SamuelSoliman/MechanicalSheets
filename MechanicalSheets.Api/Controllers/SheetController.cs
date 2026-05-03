@@ -27,7 +27,12 @@ public class SheetsController : ControllerBase
     private string GetCurrentUserRole() =>
         User.FindFirst(ClaimTypes.Role)?.Value ?? "";
 
-    
+     [HttpGet("debug/test")]
+    public IActionResult Test()
+    {
+        var userId = GetCurrentUserId();
+        throw new Exception($"User ID from token: {userId}");
+    }
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
