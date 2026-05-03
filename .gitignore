@@ -1,2 +1,5 @@
 uploads/
 logs/
+**/bin/
+**/obj/
+**/.vs/

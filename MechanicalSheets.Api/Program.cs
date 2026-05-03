@@ -50,6 +50,16 @@ builder.Services.AddAuthorizationBuilder()
 
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ISheetService, SheetService>();
+// CORS — permette al frontend su porta 8080 di chiamare l'API su porta 5000
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("FrontendPolicy", policy =>
+    {
+        policy.WithOrigins("http://localhost:8080")
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
 builder.Services.AddControllers().AddJsonOptions(options =>
     {
       
@@ -125,6 +135,7 @@ using (var scope = app.Services.CreateScope())
 
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 app.UseMiddleware<ApiKeyMiddleware>();
+app.UseCors("FrontendPolicy");
 app.UseAuthentication();
 app.UseAuthorization();
 

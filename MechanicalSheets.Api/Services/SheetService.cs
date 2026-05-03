@@ -106,7 +106,7 @@ public class SheetService : ISheetService
             .FirstOrDefaultAsync(s => s.Id == id)
             ?? throw new KeyNotFoundException("Scheda non trovata");
 
-        if (sheet.CreatedById != requesterId)
+        if (sheet.CreatedById != requesterId && !sheet.Technicians.Any(t => t.UserId == requesterId))
             throw new UnauthorizedAccessException("Non autorizzato");
 
         if (sheet.SheetStatus != SheetStatusEnum.Draft && sheet.SheetStatus != SheetStatusEnum.Rejected)
@@ -142,7 +142,7 @@ public class SheetService : ISheetService
             .FirstOrDefaultAsync(s => s.Id == id)
             ?? throw new KeyNotFoundException("Scheda non trovata");
 
-        if (sheet.CreatedById != mechanicId)
+        if (sheet.CreatedById != mechanicId && !sheet.Technicians.Any(t => t.UserId == mechanicId))
             throw new UnauthorizedAccessException("Non autorizzato");
 
         if (sheet.SheetStatus != SheetStatusEnum.Draft && sheet.SheetStatus != SheetStatusEnum.Rejected)
@@ -201,7 +201,7 @@ public class SheetService : ISheetService
         var sheet = await _db.Sheets.FindAsync(sheetId)
             ?? throw new KeyNotFoundException("Scheda non trovata");
 
-        if (sheet.CreatedById != requesterId)
+        if (sheet.CreatedById != requesterId && !sheet.Technicians.Any(t => t.UserId == requesterId))
             throw new UnauthorizedAccessException("Non autorizzato");
 
         if (sheet.SheetStatus != SheetStatusEnum.Draft && sheet.SheetStatus != SheetStatusEnum.Rejected)
@@ -245,7 +245,7 @@ public class SheetService : ISheetService
         var sheet = await _db.Sheets.FindAsync(sheetId)
             ?? throw new KeyNotFoundException("Scheda non trovata");
 
-        if (sheet.CreatedById != requesterId)
+        if (sheet.CreatedById != requesterId && !sheet.Technicians.Any(t => t.UserId == requesterId))
             throw new UnauthorizedAccessException("Non autorizzato");
 
         if (sheet.SheetStatus != SheetStatusEnum.Draft && sheet.SheetStatus != SheetStatusEnum.Rejected)
