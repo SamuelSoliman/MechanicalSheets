@@ -84,8 +84,8 @@
 | Column    | Type         | Notes                        |
 |---|---|---|
 | Id        | INT PK       |                              |
-| Name      | VARCHAR(100) | nome sistema terzo           |
-| KeyHash   | VARCHAR(255) | SHA256 della key in chiaro   |
+| Name      | STRING | nome sistema terzo           |
+| KeyHash   | STRING | SHA256 della key in chiaro   |
 | IsActive  | BOOL   |                              |
 | CreatedAt | TIMESTAMP    |                              |
 
