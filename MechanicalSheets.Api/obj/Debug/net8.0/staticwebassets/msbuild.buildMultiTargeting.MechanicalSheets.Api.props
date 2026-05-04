@@ -1,3 +1,0 @@
-﻿<Project>
-  <Import Project="../build/MechanicalSheets.Api.props" />
-</Project>
