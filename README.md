@@ -42,8 +42,8 @@ X-Api-Key: test-api-key-12345
 ## Script test workflow completo
 
 ```bash
-chmod +x scripts/test_workflow.sh
-./scripts/test_workflow.sh
+chmod +x Scripts/test_workflow.sh
+./Scripts/test_workflow.sh
 ```
 
 ## Workflow stati
@@ -90,7 +90,7 @@ Il script testa l'intero processo:
 |---|---|---|
 | GET | /api/integration/sheets | Lista schede |
 | GET | /api/integration/sheets/{id} | Dettaglio scheda |
-| POST | /api/integration/sheets/{id}/status | Cambia stato scheda  |
+| PUT | /api/integration/sheets/{id}/status | Cambia stato scheda  |
 
 
 
