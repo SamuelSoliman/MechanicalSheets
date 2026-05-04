@@ -46,8 +46,6 @@ chmod +x Scripts/test_workflow.sh
 ./Scripts/test_workflow.sh
 ```
 
-## Workflow stati
-
 Il script testa l'intero processo:
 `compilazione → submit → reject → fix → resubmit → approve` e integrazione api
 
