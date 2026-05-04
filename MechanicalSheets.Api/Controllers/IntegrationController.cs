@@ -75,9 +75,7 @@ public class IntegrationController : ControllerBase
         if (sheet == null)
             return NotFound(new { message = "Scheda non trovata" });
 
-        // Validate status transitions
-        if (sheet.SheetStatus == SheetStatusEnum.Approved)
-            return BadRequest(new { message = "Non puoi cambiare lo stato di una scheda già approvata" });
+
 
         if (sheet.SheetStatus == SheetStatusEnum.Rejected && dto.NewStatus != SheetStatusEnum.Draft)
             return BadRequest(new { message = "Una scheda rifiutata può solo tornare in bozza" });

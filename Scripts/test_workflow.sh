@@ -194,7 +194,7 @@ check "Modifica scheda approved bloccata" "Impossibile" "$EDIT_APPROVED"
 # ============================================================
 echo -e "${YELLOW}--- 13. reject via Integration API ---${NC}"
 # ============================================================
-REJECTAPI_RESPONSE=$(curl -s -X PUT "$BASE/integration/sheets/1/status" \
+REJECTAPI_RESPONSE=$(curl -s -X PUT "$BASE/integration/sheets/$SHEET_ID/status" \
   -H "X-Api-Key: test-api-key-12345" \
   -H "Content-Type: application/json" \
   -d '{"NewStatus": "Rejected", "RejectionNote": "Rifiutata da sistema ERP"}')
