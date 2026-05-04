@@ -8,4 +8,5 @@ public class AttachmentResponseDto
     public long FileSize { get; set; }
     public DateTime UploadedAt { get; set; }
     public string UploadedBy { get; set; } = string.Empty;
+    public string Url { get; set; } = string.Empty; // URL per visualizzare la foto
 }

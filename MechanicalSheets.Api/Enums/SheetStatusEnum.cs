@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 namespace MechanicalSheets.Api.Enums;
 public enum SheetStatusEnum
 {
-    // draft|submitted|approved|rejected
+    // 
    [Display(Name = "Bozza")]
     Draft = 0,
 

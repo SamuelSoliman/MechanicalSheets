@@ -11,7 +11,7 @@ namespace MechanicalSheets.Api.Controllers;
 
 [ApiController]
 [Route("api/sheets/{sheetId}/defects/{itemId}/attachments")]
-[Authorize(Roles = "mechanic")]
+[Authorize]
 public class AttachmentsController : ControllerBase
 {
     private readonly AppDbContext _db;
@@ -29,10 +29,27 @@ public class AttachmentsController : ControllerBase
             ?? throw new UnauthorizedAccessException());
 
     
+ 
     [HttpGet]
     public async Task<IActionResult> GetAttachments(int sheetId, int itemId)
     {
-        
+        var userId = GetCurrentUserId();
+        var role   = User.FindFirst(ClaimTypes.Role)?.Value ?? "";
+
+    
+        var sheet = await _db.Sheets
+            .Include(s => s.Technicians)
+            .FirstOrDefaultAsync(s => s.Id == sheetId);
+
+        if (sheet == null)
+            return NotFound(new { message = "Scheda non trovata" });
+
+      
+        if (role == "mechanic" &&
+            sheet.CreatedById != userId &&
+            !sheet.Technicians.Any(t => t.UserId == userId))
+            return StatusCode(403, new { message = "Non autorizzato" });
+
         var item = await _db.SheetDefectItems
             .FirstOrDefaultAsync(i => i.Id == itemId && i.SheetId == sheetId);
 
@@ -49,7 +66,8 @@ public class AttachmentsController : ControllerBase
                 MimeType = a.MimeType,
                 FileSize = a.FileSize,
                 UploadedAt = a.UploadedAt,
-                UploadedBy = a.UploadedBy.Name
+                UploadedBy = a.UploadedBy.Name,
+                Url = $"/api/files/{a.FilePath}"
             })
             .ToListAsync();
 
@@ -57,7 +75,8 @@ public class AttachmentsController : ControllerBase
     }
 
 
-    [HttpPost]
+   [HttpPost]
+   [Authorize(Roles = "mechanic")]
     public async Task<IActionResult> Upload(int sheetId, int itemId, IFormFile file)
     {
        
@@ -131,12 +150,14 @@ public class AttachmentsController : ControllerBase
             MimeType = attachment.MimeType,
             FileSize = attachment.FileSize,
             UploadedAt = attachment.UploadedAt,
-            UploadedBy = _db.Users.Where(u => u.Id == userId).Select(u => u.Name).FirstOrDefault() ?? "Unknown"
+            UploadedBy = _db.Users.Where(u => u.Id == userId).Select(u => u.Name).FirstOrDefault() ?? "Unknown",
+            Url = $"/api/files/{attachment.FilePath}"
         });
     }
 
   
     [HttpDelete("{attachmentId}")]
+    [Authorize(Roles = "mechanic")]
     public async Task<IActionResult> Delete(int sheetId, int itemId, int attachmentId)
     {
         var sheet = await _db.Sheets
