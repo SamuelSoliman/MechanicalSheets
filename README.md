@@ -16,10 +16,10 @@ docker-compose up --build -d
 | Servizio | URL |
 |---|---|
 | API | http://localhost:5000 |
-| Swagger UI | http://localhost:5000/swagger |
+| Swagger UI | http://localhost:<port>/swagger |
 | Frontend | http://localhost:8080 |
 
-Per Swagger funziona solo con `dotnet run` (Development environment)
+Per Swagger funziona solo con `dotnet run` (Development Environment)
 
 
 Al primo avvio il DB viene migrato e popolato automaticamente con dati di test.
