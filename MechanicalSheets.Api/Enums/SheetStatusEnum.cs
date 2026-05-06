@@ -13,5 +13,8 @@ public enum SheetStatusEnum
     Approved = 2,
 
     [Display(Name = "Rifiutato")]
-    Rejected = 3
+    Rejected = 3,
+
+    [Display(Name = "Chiuso")]
+    Closed = 4
 }

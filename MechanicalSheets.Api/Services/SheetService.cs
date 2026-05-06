@@ -145,6 +145,9 @@ public class SheetService : ISheetService
         if (sheet.CreatedById != mechanicId && !sheet.Technicians.Any(t => t.UserId == mechanicId))
             throw new UnauthorizedAccessException("Non autorizzato");
 
+        if (sheet.SheetStatus == SheetStatusEnum.Closed)
+            throw new InvalidOperationException($"Impossibile sottomettere una scheda in stato '{sheet.SheetStatus}'");
+
         if (sheet.SheetStatus != SheetStatusEnum.Draft && sheet.SheetStatus != SheetStatusEnum.Rejected)
             throw new InvalidOperationException($"Impossibile sottomettere una scheda in stato '{sheet.SheetStatus}'");
 
@@ -204,7 +207,7 @@ public class SheetService : ISheetService
         if (sheet.CreatedById != requesterId && !sheet.Technicians.Any(t => t.UserId == requesterId))
             throw new UnauthorizedAccessException("Non autorizzato");
 
-        if (sheet.SheetStatus != SheetStatusEnum.Draft && sheet.SheetStatus != SheetStatusEnum.Rejected)
+        if (sheet.SheetStatus == SheetStatusEnum.Closed || sheet.SheetStatus == SheetStatusEnum.Approved || sheet.SheetStatus == SheetStatusEnum.Submitted)
             throw new InvalidOperationException($"Non puoi aggiungere difetti a una scheda in stato '{sheet.SheetStatus}'");
 
        

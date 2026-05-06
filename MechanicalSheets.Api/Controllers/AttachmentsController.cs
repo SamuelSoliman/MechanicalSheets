@@ -91,7 +91,7 @@ public class AttachmentsController : ControllerBase
             return StatusCode(403, new { message = "Non autorizzato" });
 
         
-        if (sheet.SheetStatus == SheetStatusEnum.Approved || sheet.SheetStatus == SheetStatusEnum.Submitted)
+        if (sheet.SheetStatus == SheetStatusEnum.Approved || sheet.SheetStatus == SheetStatusEnum.Submitted || sheet.SheetStatus == SheetStatusEnum.Closed)
             return BadRequest(new { message = $"Non puoi aggiungere foto a una scheda in stato '{sheet.SheetStatus}'" });
 
       

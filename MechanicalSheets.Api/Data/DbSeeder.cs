@@ -234,7 +234,7 @@ public static class DbSeeder
                 Brand = "Ford",
                 Vehicle = "Focus",
                 InspectionDate = new DateOnly(2026, 3, 28),
-                SheetStatus = SheetStatusEnum.Rejected,
+                SheetStatus = SheetStatusEnum.Closed,
                 SubmittedAt = DateTime.UtcNow.AddDays(-10),
                 ReviewedAt = DateTime.UtcNow.AddDays(-7),
                 ReviewedById = manager.Id,

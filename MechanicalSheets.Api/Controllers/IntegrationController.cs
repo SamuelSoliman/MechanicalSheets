@@ -75,15 +75,22 @@ public class IntegrationController : ControllerBase
         if (sheet == null)
             return NotFound(new { message = "Scheda non trovata" });
 
+        // Block any transitions out of Closed state (terminal state)
+        if (sheet.SheetStatus == SheetStatusEnum.Closed)
+            return BadRequest(new { message = "Una scheda chiusa non può essere modificata" });
 
+        // Rejected sheets can only return to Draft
+        if (sheet.SheetStatus == SheetStatusEnum.Rejected && dto.NewStatus != SheetStatusEnum.Draft && dto.NewStatus != SheetStatusEnum.Closed)
+            return BadRequest(new { message = "Una scheda rifiutata può solo tornare in bozza o essere chiusa" });
 
-        if (sheet.SheetStatus == SheetStatusEnum.Rejected && dto.NewStatus != SheetStatusEnum.Draft)
-            return BadRequest(new { message = "Una scheda rifiutata può solo tornare in bozza" });
+        // Draft sheets cannot transition directly to Closed
+        if (sheet.SheetStatus == SheetStatusEnum.Draft && dto.NewStatus == SheetStatusEnum.Closed)
+            return BadRequest(new { message = "Una scheda in bozza non può essere chiusa direttamente" });
 
+        // Rejection note is required when rejecting
         if (dto.NewStatus == SheetStatusEnum.Rejected && string.IsNullOrWhiteSpace(dto.RejectionNote))
             return BadRequest(new { message = "Nota di rifiuto obbligatoria quando si rifiuta una scheda" });
 
-        
         sheet.SheetStatus = dto.NewStatus;
         sheet.UpdatedAt = DateTime.UtcNow;
 
@@ -94,13 +101,15 @@ public class IntegrationController : ControllerBase
         else if (dto.NewStatus == SheetStatusEnum.Approved)
         {
             sheet.ReviewedAt = DateTime.UtcNow;
-        
         }
         else if (dto.NewStatus == SheetStatusEnum.Rejected)
         {
             sheet.RejectionNote = dto.RejectionNote;
             sheet.ReviewedAt = DateTime.UtcNow;
-          
+        }
+        else if (dto.NewStatus == SheetStatusEnum.Closed)
+        {
+            sheet.ReviewedAt = DateTime.UtcNow;
         }
 
         await _db.SaveChangesAsync();

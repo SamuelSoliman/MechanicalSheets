@@ -83,6 +83,10 @@ Gli endpoint `/api/integration/*` usano header `X-Api-Key` separato dal JWT.
 La key è salvata come hash SHA256 — mai in chiaro nel DB.
 L'endpoint `PUT /api/integration/sheets/{id}/status` permette ai sistemi terzi
 di cambiare lo stato della scheda con validazione delle transizioni di stato.
+Lo stato `Closed` è terminale e raggiungibile esclusivamente tramite questo
+endpoint — i ruoli interni (mechanic, manager) non possono chiudere una scheda
+direttamente, riflettendo il fatto che la chiusura avviene in un sistema esterno
+come un ERP dopo l'importazione dei dati.
 
 
 ### 7. Migration + seed automatici all'avvio

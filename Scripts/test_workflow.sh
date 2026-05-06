@@ -192,14 +192,14 @@ EDIT_APPROVED=$(curl -s -X PUT "$BASE/sheets/$SHEET_ID" \
 check "Modifica scheda approved bloccata" "Impossibile" "$EDIT_APPROVED"
 
 # ============================================================
-echo -e "${YELLOW}--- 13. reject via Integration API ---${NC}"
+echo -e "${YELLOW}--- 13. close via Integration API ---${NC}"
 # ============================================================
-REJECTAPI_RESPONSE=$(curl -s -X PUT "$BASE/integration/sheets/$SHEET_ID/status" \
+CLOSEAPI_RESPONSE=$(curl -s -X PUT "$BASE/integration/sheets/$SHEET_ID/status" \
   -H "X-Api-Key: test-api-key-12345" \
   -H "Content-Type: application/json" \
-  -d '{"NewStatus": "Rejected", "RejectionNote": "Rifiutata da sistema ERP"}')
+  -d '{"NewStatus": "Closed"}')
 
-check "Scheda rejected via Integration API" "successo" "$REJECTAPI_RESPONSE"
+check "Scheda closed via Integration API" "successo" "$CLOSEAPI_RESPONSE"
 
 # ============================================================
 echo -e "${YELLOW}--- 14. Integration API senza key (deve fallire) ---${NC}"

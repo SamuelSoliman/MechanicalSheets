@@ -21,7 +21,7 @@
 | Brand         | STRING | nullable                                           |
 | Vehicle       | STRING | nullable                                           |
 | InspectionDate| DATE         |                                                    |
-| SheetStatus   | ENUM         | Draft, Submitted, Approved, Rejected               |
+| SheetStatus   | ENUM         | Draft, Submitted, Approved, Rejected, Closed               |
 | RejectionNote | STRING         | nullable, popolato su Reject                       |
 | SubmittedAt   | TIMESTAMP    | nullable                                           |
 | ReviewedAt    | TIMESTAMP    | nullable                                           |
