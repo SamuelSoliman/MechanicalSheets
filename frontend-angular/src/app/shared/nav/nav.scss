@@ -1,0 +1,36 @@
+// Stessa palette del vanilla `frontend/index.html` (nav scura + badge ruolo).
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: #1a1a2e;
+  color: white;
+}
+.brand {
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+.spacer {
+  flex: 1;
+}
+.user-name {
+  font-size: 0.9rem;
+  margin-right: 12px;
+}
+.role-badge {
+  background: #e94560;
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-right: 12px;
+}
+.role-badge.manager {
+  background: #0f3460;
+  border: 1px solid #e94560;
+}
+.logout {
+  color: white;
+  border-color: rgba(255, 255, 255, 0.3);
+}

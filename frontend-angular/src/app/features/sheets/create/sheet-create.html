@@ -1,0 +1,37 @@
+<div class="page">
+  <div class="page-header">
+    <h2>📋 Nuova scheda</h2>
+    <button mat-stroked-button routerLink="/sheets">← Torna alla lista</button>
+  </div>
+
+  <mat-card class="form-card">
+    <form [formGroup]="form" (ngSubmit)="save()">
+      <mat-form-field appearance="outline" class="full">
+        <mat-label>Codice veicolo *</mat-label>
+        <input matInput formControlName="code" placeholder="es. VEI-007" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full">
+        <mat-label>Marca</mat-label>
+        <input matInput formControlName="brand" placeholder="es. Fiat" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full">
+        <mat-label>Modello</mat-label>
+        <input matInput formControlName="vehicle" placeholder="es. 500" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full">
+        <mat-label>Data ispezione *</mat-label>
+        <input matInput type="date" formControlName="inspectionDate" />
+      </mat-form-field>
+
+      <div class="actions-row">
+        <button mat-button type="button" routerLink="/sheets">Annulla</button>
+        <button mat-flat-button color="primary" type="submit" [disabled]="form.invalid || saving()">
+          {{ saving() ? 'Creazione…' : 'Crea scheda' }}
+        </button>
+      </div>
+    </form>
+  </mat-card>
+</div>

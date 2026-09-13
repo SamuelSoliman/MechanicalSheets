@@ -1,0 +1,33 @@
+<div class="login-page">
+  <mat-card class="login-card">
+    <h2>🔧 Mechanical Sheets</h2>
+    <p class="subtitle">Gestione schede di intervento meccanico</p>
+
+    @if (error()) {
+      <p class="error">{{ error() }}</p>
+    }
+
+    <form [formGroup]="form" (ngSubmit)="submit()">
+      <mat-form-field appearance="outline" class="full">
+        <mat-label>Email</mat-label>
+        <input matInput type="email" formControlName="email" placeholder="mario.rossi@test.com" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full">
+        <mat-label>Password</mat-label>
+        <input matInput type="password" formControlName="password" placeholder="••••••••" />
+      </mat-form-field>
+
+      <button mat-flat-button color="primary" class="full" type="submit" [disabled]="loading()">
+        {{ loading() ? 'Accesso…' : 'Accedi' }}
+      </button>
+    </form>
+
+    <div class="quick">
+      <p>ACCESSO RAPIDO</p>
+      <button mat-stroked-button (click)="fill('mario.rossi@test.com')">👷 Mario Rossi — mechanic</button>
+      <button mat-stroked-button (click)="fill('anna.verdi@test.com')">👷 Anna Verdi — mechanic</button>
+      <button mat-stroked-button color="primary" (click)="fill('manager@test.com')">👔 Manager — manager</button>
+    </div>
+  </mat-card>
+</div>

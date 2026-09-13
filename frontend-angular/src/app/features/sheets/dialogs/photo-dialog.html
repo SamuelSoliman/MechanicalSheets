@@ -1,0 +1,23 @@
+<h2 mat-dialog-title>📷 Carica foto</h2>
+
+<mat-dialog-content>
+  <p class="hint">Formati accettati: JPEG, PNG, WEBP. Max 5MB.</p>
+  @if (error()) {
+    <p class="error">{{ error() }}</p>
+  }
+  <input
+    type="file"
+    accept="image/jpeg,image/png,image/webp"
+    (change)="onFile($event)"
+  />
+  @if (fileName()) {
+    <p class="picked">📎 {{ fileName() }}</p>
+  }
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="cancel()">Annulla</button>
+  <button mat-flat-button color="primary" (click)="upload()" [disabled]="!fileName()">
+    Carica
+  </button>
+</mat-dialog-actions>

@@ -1,0 +1,25 @@
+<h2 mat-dialog-title>❌ Rifiuta scheda</h2>
+
+<mat-dialog-content>
+  <p class="hint">Spiega al meccanico cosa deve correggere prima di reinviare.</p>
+  @if (error()) {
+    <p class="error">{{ error() }}</p>
+  }
+  <form [formGroup]="form">
+    <mat-form-field appearance="outline" class="full">
+      <mat-label>Motivo rifiuto *</mat-label>
+      <textarea
+        matInput
+        formControlName="rejectionNote"
+        placeholder="es. Mancano foto per i difetti carrozzeria..."
+      ></textarea>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="cancel()">Annulla</button>
+  <button mat-flat-button color="warn" (click)="confirm()" [disabled]="form.invalid">
+    Conferma rifiuto
+  </button>
+</mat-dialog-actions>

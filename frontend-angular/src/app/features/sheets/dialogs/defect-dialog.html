@@ -1,0 +1,52 @@
+<h2 mat-dialog-title>🔍 Aggiungi difetto</h2>
+
+<mat-dialog-content>
+  @if (loadingCatalog()) {
+    <p>Caricamento catalogo…</p>
+  } @else {
+    <form [formGroup]="form" class="defect-form">
+      <mat-form-field appearance="outline" class="full">
+        <mat-label>Tipo difetto *</mat-label>
+        <mat-select formControlName="defectCatalogId">
+          @for (d of catalog(); track d.id) {
+            <mat-option [value]="d.id">[{{ d.code }}] {{ d.description }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <p class="group-label">Estensione</p>
+      <div class="checks">
+        <mat-checkbox formControlName="extentLow">Bassa (0.2)</mat-checkbox>
+        <mat-checkbox formControlName="extentMedium">Media (0.5)</mat-checkbox>
+        <mat-checkbox formControlName="extentHigh">Alta (1)</mat-checkbox>
+      </div>
+
+      <p class="group-label">Intensità</p>
+      <div class="checks">
+        <mat-checkbox formControlName="intensityLow">Bassa (0.2)</mat-checkbox>
+        <mat-checkbox formControlName="intensityMedium">Media (0.5)</mat-checkbox>
+        <mat-checkbox formControlName="intensityHigh">Alta (1)</mat-checkbox>
+      </div>
+
+      <div class="checks flags">
+        <mat-checkbox formControlName="isSeen">Visto</mat-checkbox>
+        <mat-checkbox formControlName="isPs">PS</mat-checkbox>
+        <mat-checkbox formControlName="isNa">NA</mat-checkbox>
+        <mat-checkbox formControlName="isNr">NR</mat-checkbox>
+        <mat-checkbox formControlName="isNp">NP</mat-checkbox>
+      </div>
+
+      <mat-form-field appearance="outline" class="full">
+        <mat-label>Note</mat-label>
+        <textarea matInput formControlName="notes" placeholder="Note aggiuntive..."></textarea>
+      </mat-form-field>
+    </form>
+  }
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="cancel()">Annulla</button>
+  <button mat-flat-button color="primary" (click)="save()" [disabled]="form.invalid || loadingCatalog()">
+    Aggiungi
+  </button>
+</mat-dialog-actions>

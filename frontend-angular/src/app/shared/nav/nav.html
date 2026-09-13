@@ -1,0 +1,9 @@
+<mat-toolbar color="primary" class="nav">
+  <span class="brand">🔧 Mechanical Sheets</span>
+  <span class="spacer"></span>
+  @if (auth.user(); as u) {
+    <span class="user-name">{{ u.name }}</span>
+    <span class="role-badge" [class.manager]="u.role === 'manager'">{{ u.role }}</span>
+    <button mat-stroked-button class="logout" (click)="logout()">Esci</button>
+  }
+</mat-toolbar>

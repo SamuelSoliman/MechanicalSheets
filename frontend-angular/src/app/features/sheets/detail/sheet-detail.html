@@ -1,0 +1,109 @@
+<div class="page">
+  @if (loading()) {
+    <div class="center"><mat-spinner diameter="40"></mat-spinner></div>
+  } @else if (loadError() || !sheet()) {
+    <p class="error">{{ loadError() ?? 'Scheda non trovata' }}</p>
+    <button mat-stroked-button routerLink="/sheets">← Torna alla lista</button>
+  } @else if (sheet(); as s) {
+    <div class="page-header">
+      <h2>{{ s.code }} — {{ s.brand || '' }} {{ s.vehicle || '' }} <app-status-badge [status]="s.status"></app-status-badge></h2>
+      <button mat-stroked-button routerLink="/sheets">← Torna alla lista</button>
+    </div>
+
+    <mat-card class="block">
+      <p class="section-title">Informazioni scheda</p>
+      <div class="info-grid">
+        <div><strong>Data ispezione:</strong><br />{{ s.inspectionDate }}</div>
+        <div><strong>Creata da:</strong><br />{{ s.createdBy.name }}</div>
+        @if (s.reviewedBy) {
+          <div><strong>Revisionata da:</strong><br />{{ s.reviewedBy.name }}</div>
+        }
+        @if (s.submittedAt) {
+          <div><strong>Inviata il:</strong><br />{{ s.submittedAt }}</div>
+        }
+        @if (s.technicians.length > 0) {
+          <div><strong>Tecnici:</strong><br />{{ technicianNames() }}</div>
+        }
+      </div>
+      @if (s.rejectionNote) {
+        <div class="rejection-box">
+          <strong>⚠️ Motivo rifiuto:</strong> {{ s.rejectionNote }}
+        </div>
+      }
+    </mat-card>
+
+    <mat-card class="block">
+      <p class="section-title">Difetti ({{ s.defectItems.length }})</p>
+      @if (s.defectItems.length === 0) {
+        <p class="muted">Nessun difetto registrato</p>
+      } @else {
+        @for (d of s.defectItems; track d.id) {
+          <div class="defect-item">
+            <div class="defect-main">
+              <div class="defect-code">{{ d.defectCode }} — {{ d.defectCategory }}</div>
+              <div class="defect-desc">{{ d.defectDescription }}</div>
+              @if (d.notes) {
+                <div class="defect-note">📝 {{ d.notes }}</div>
+              }
+              <div class="defect-flags">
+                G:{{ d.gravity }} {{ extentLabel(d) }} {{ intensityLabel(d) }}
+                @if (d.isPs) { <strong class="ps">PS</strong> }
+                @if (d.isNa) { NA } @if (d.isNr) { NR } @if (d.isNp) { NP }
+                @if (d.isSeen) { 👁 }
+              </div>
+              @if (d.hasPhoto) {
+                <div class="photo-toggle">
+                  <button mat-stroked-button (click)="togglePhotos(d)">
+                    📷 {{ photoView(d.id)?.open ? 'Nascondi foto' : 'Vedi foto' }}
+                  </button>
+                  @if (photoView(d.id)?.open) {
+                    <div class="photo-grid">
+                      @if (photoView(d.id)?.loading) {
+                        <p class="muted">Caricamento…</p>
+                      } @else if ((photoView(d.id)?.items?.length ?? 0) === 0) {
+                        <p class="muted">Nessuna foto</p>
+                      } @else {
+                        @for (p of photoView(d.id)?.items ?? []; track p.attachment.id) {
+                          <a [href]="p.url" target="_blank" rel="noopener">
+                            <img [src]="p.url" [alt]="p.attachment.fileName" class="photo-thumb" />
+                          </a>
+                        }
+                      }
+                    </div>
+                  }
+                </div>
+              }
+            </div>
+            @if (canEdit()) {
+              <div class="defect-actions">
+                <button mat-stroked-button title="Carica foto" (click)="openPhotoDialog(d.id)">📷</button>
+                <button mat-flat-button color="warn" title="Elimina difetto" (click)="deleteDefect(d.id)">🗑</button>
+              </div>
+            }
+          </div>
+        }
+      }
+      @if (canEdit()) {
+        <div class="block-actions">
+          <button mat-flat-button color="primary" (click)="openDefectDialog()">+ Aggiungi difetto</button>
+        </div>
+      }
+    </mat-card>
+
+    @if (canReview()) {
+      <mat-card class="block review">
+        <p class="section-title danger">Azioni manager</p>
+        <div class="actions-row">
+          <button mat-flat-button class="approve" (click)="approve()">✓ Approva scheda</button>
+          <button mat-flat-button color="warn" (click)="openRejectDialog()">✗ Rifiuta scheda</button>
+        </div>
+      </mat-card>
+    }
+
+    @if (canEdit()) {
+      <div class="actions-row">
+        <button mat-flat-button color="primary" (click)="submit()">📤 Invia per revisione</button>
+      </div>
+    }
+  }
+</div>
