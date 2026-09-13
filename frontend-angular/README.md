@@ -21,6 +21,23 @@ npm start          # http://localhost:4200, proxy /api → http://localhost:5000
 npm run build      # output in dist/
 ```
 
+## Docker (step 7)
+
+Un solo comando dalla root, 4 servizi:
+
+```bash
+docker-compose up --build -d
+```
+
+| Servizio | URL |
+|---|---|
+| API | http://localhost:5000 |
+| Frontend vanilla | http://localhost:8080 |
+| Frontend Angular | http://localhost:8081 (`/api/` → `api:8080`, SPA fallback) |
+
+Nessuna modifica CORS necessaria: tutte le chiamate usano URL relativi `/api/...`
+(same-origin via proxy/dev-server/nginx), quindi `FrontendPolicy (:8080)` non viene mai valutata.
+
 Login di test (tutti `password123`): `mario.rossi@test.com` (mechanic), `manager@test.com` (manager).
 
 ## Stato
@@ -29,4 +46,4 @@ Login di test (tutti `password123`): `mario.rossi@test.com` (mechanic), `manager
 - [x] Step 4: servizi API (`SheetService`, `DefectCatalog/DefectItem/AttachmentService`)
 - [x] Step 5: shell `Nav` + `StatusBadge` + `SheetsList` (tab ruolo, pending badge, card, gating Invia/Approva/Rifiuta)
 - [x] Step 6: `SheetDetail` + `SheetCreate` + dialog (`DefectDialog`, `PhotoDialog`, `RejectDialog`)
-- [ ] Step 7: Docker `:8081` + verifica finale
+- [x] Step 7: Docker `:8081` + verifica finale (compose 4 servizi, workflow API OK)
